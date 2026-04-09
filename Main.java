@@ -3,13 +3,13 @@ public class Main {
      * Main method for testing the BudgetCategory class.
      */
     public static void main(String[] args) {
-        BudgetCategory food = new BudgetCategory("Groceries", 350.50);
+        // Create a category first
+        BudgetCategory entertainment = new BudgetCategory("Movies", 50.0);
 
-        // Testing toString and getters
-        System.out.println(food.toString());
+        // Create a transaction using that category (Composition)
+        Transaction t1 = new Transaction(12.50, entertainment);
 
-        // Testing setters
-        food.setBudgetAmount(400.00);
-        System.out.println("Updated " + food.getName() + " budget: $" + food.getBudgetAmount());
+        System.out.println(t1.toString());
+        
     }
 }
