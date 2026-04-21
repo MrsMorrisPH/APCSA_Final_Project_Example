@@ -43,6 +43,40 @@ public class BudgetManager {
         return total;
     }
 
+    /**
+     * Checks whether a category total is within 100 of its budget.
+     * @param category The category to evaluate
+     * @return A message if close to budget, otherwise null
+     */
+    public String checkIfNearBudget(BudgetCategory category) {
+        double categoryTotal = calculateCategoryTotal(category);
+        double difference = category.getBudgetAmount() - categoryTotal;
+
+        if (Math.abs(difference) <= 100) {
+            if (difference >= 0) {
+                return "You are $" + String.format("%.2f",difference) + " away from your "
+                        + category.getName() + " budget.";
+            }
+            return "You are $" + String.format("%.2f", Math.abs(difference)) + " over your "
+                    + category.getName() + " budget.";
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks every category and prints a message for categories near budget.
+     */
+    public void checkAllCategories() {
+        for (BudgetCategory category : categoryList) {
+            String message = checkIfNearBudget(category);
+            if (message != null) {
+                System.out.println(message);
+            }
+        }
+    }
+
+
     public String toString(){
         String text = "";
         for(BudgetCategory item: categoryList){

@@ -15,7 +15,8 @@ public class Main {
 
         Transaction t3 = new Transaction(10, entertainment);
         Transaction t4 = new Transaction(20, food);
-
+        Transaction t5 = new Transaction(100, entertainment);
+        Transaction t6 = new Transaction(800, food);
         // create a budgetManager
         BudgetManager manager = new BudgetManager();
 
@@ -31,10 +32,15 @@ public class Main {
         manager.addTransaction(t2);
         manager.addTransaction(t3);
         manager.addTransaction(t4);
+        manager.addTransaction(t5);
+        manager.addTransaction(t6);
 
         // test category total method
         System.out.println("Total spent in Entertainment category: " + String.format("%.2f", manager.calculateCategoryTotal(entertainment)));
         System.out.println("Total spent in Food category: " + String.format("%.2f", manager.calculateCategoryTotal(food)));
+
+        //check if near budget
+        manager.checkAllCategories();
 
 
     }
