@@ -26,6 +26,20 @@ public class BudgetManager {
     }
 
     /**
+     * Finds a category by name.
+     * @param name The category name to search for
+     * @return Matching category, or null if not found
+     */
+    public BudgetCategory findCategoryByName(String name) {
+        for (BudgetCategory category : categoryList) {
+            if (category.getName().equalsIgnoreCase(name)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Calculates the total amount spent for a specific category.
      * * @param category The category to total
      * @return The sum of all transaction amounts in that category
@@ -75,6 +89,23 @@ public class BudgetManager {
             }
         }
     }
+
+    /**
+     * Displays each category total against its budget, then shows near-budget alerts.
+     */
+    public void displayCategoryTotals() {
+        for (BudgetCategory category : categoryList) {
+            double spent = calculateCategoryTotal(category);
+            System.out.println(category.getName() + " - Spent: $"
+                    + String.format("%.2f", spent)
+                    + ", Budgeted: $"
+                    + String.format("%.2f", category.getBudgetAmount()));
+        }
+
+        checkAllCategories();
+    }
+
+    
 
 
     public String toString(){

@@ -1,47 +1,75 @@
+import java.util.Scanner;
 public class Main {
     /**
      * Main method for testing the BudgetCategory class.
      */
     public static void main(String[] args) {
-        // Create a category first
-        BudgetCategory entertainment = new BudgetCategory("Entertainment", 200.0);
-        // Create a transaction using that category (Composition)
-        Transaction t1 = new Transaction(12.50, entertainment);
-
-        // Create a category first
-        BudgetCategory food = new BudgetCategory("Food", 800.0);
-        // Create a transaction using that category (Composition)
-        Transaction t2 = new Transaction(19.99, food);
-
-        Transaction t3 = new Transaction(10, entertainment);
-        Transaction t4 = new Transaction(20, food);
-        Transaction t5 = new Transaction(100, entertainment);
-        Transaction t6 = new Transaction(800, food);
         // create a budgetManager
         BudgetManager manager = new BudgetManager();
 
-        // add categories
-        manager.addCategory(entertainment);
-        manager.addCategory(food);
+        // create scanner
+        Scanner scan = new Scanner(System.in);
 
-        // print categories and their budgets
-        System.out.println(manager);
+        boolean exit = false;
 
-        // add transactions
-        manager.addTransaction(t1);
-        manager.addTransaction(t2);
-        manager.addTransaction(t3);
-        manager.addTransaction(t4);
-        manager.addTransaction(t5);
-        manager.addTransaction(t6);
+        // main program / user menu
+        while(!exit){
+            // menu
+            System.out.println("Enter an option: ");
+            System.out.println("1. Create a New Category");
+            System.out.println("2. Add Transaction");
+            System.out.println("3. Display Category Totals");
+            System.out.println("4. Exit");
 
-        // test category total method
-        System.out.println("Total spent in Entertainment category: " + String.format("%.2f", manager.calculateCategoryTotal(entertainment)));
-        System.out.println("Total spent in Food category: " + String.format("%.2f", manager.calculateCategoryTotal(food)));
+            // input
+            int response = scan.nextInt();
 
-        //check if near budget
-        manager.checkAllCategories();
+            switch (response) {
+                case 1 -> {
+                    BudgetCategory newCategory = createCategory(scan);
+                    manager.addCategory(newCategory);
+                }
+                case 2 -> {
+                    Transaction newTransaction = createTransaction(scan, manager);
+                    if (newTransaction != null) {
+                        manager.addTransaction(newTransaction);
+                    }
+                }
+                case 3 -> manager.displayCategoryTotals();
+                case 4 -> exit = true;
+                default -> System.out.println("Enter a valid option");
+            }
+        }
 
 
+    }
+
+    public static BudgetCategory createCategory(Scanner scan) {
+        scan.nextLine();
+        System.out.print("Enter category name: ");
+        String name = scan.nextLine();
+
+        System.out.print("Enter category budget: ");
+        double budgetAmount = scan.nextDouble();
+
+        return new BudgetCategory(name, budgetAmount);
+    }
+
+    public static Transaction createTransaction(Scanner scan, BudgetManager manager) {
+        scan.nextLine();
+        System.out.print("Enter transaction amount: ");
+        double amount = scan.nextDouble();
+        scan.nextLine();
+
+        System.out.print("Enter category name for this transaction: ");
+        String categoryName = scan.nextLine();
+
+        BudgetCategory category = manager.findCategoryByName(categoryName);
+        if (category == null) {
+            System.out.println("Category not found. Please create the category first.");
+            return null;
+        }
+
+        return new Transaction(amount, category);
     }
 }
