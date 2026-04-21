@@ -33,8 +33,8 @@ public class Main {
         manager.addTransaction(t4);
 
         // test category total method
-        System.out.println("Total spent in Entertainment category: " + manager.calculateCategoryTotal(entertainment));
-        System.out.println("Total spent in Food category: " + manager.calculateCategoryTotal(food));
+        System.out.println("Total spent in Entertainment category: " + String.format("%.2f", manager.calculateCategoryTotal(entertainment)));
+        System.out.println("Total spent in Food category: " + String.format("%.2f", manager.calculateCategoryTotal(food)));
 
 
     }
